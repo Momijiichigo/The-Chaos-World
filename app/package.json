@@ -1,0 +1,22 @@
+{
+  "name": "chaosworld",
+  "version": "1.0.0",
+  "description": "the chaos world game",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Momijiichigo/TheChaosWorld.git"
+  },
+  "keywords": [
+    "TCW"
+  ],
+  "author": "kosei28, Momijiichigo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Momijiichigo/TheChaosWorld/issues"
+  },
+  "homepage": "https://github.com/Momijiichigo/TheChaosWorld#readme"
+}
