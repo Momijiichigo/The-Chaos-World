@@ -2,20 +2,21 @@ const http = require("http");
 const socketio = require("socket.io");
 const fs = require("fs");
 var path = require('path');
-//　読み取るMIMEタイプ
+// 読み取るMIMEタイプ
 var mime = {
     ".html": "text/html",
     ".css":  "text/css",
-    ".js": "text/javascript"
+    ".js": "text/javascript",
+    ".png": "image/png"
 };
 
-//　サーバーを起動
+// サーバーを起動
 var server = http.createServer((req, res) => {
-    var filePath = req.url;                 //　パスを取得
+    var filePath = req.url;                 // パスを取得
     if (filePath == "/") {
         filePath = "/index.html";
     }
-    var fullPath = __dirname + filePath;    //　絶対パスへ変換
+    var fullPath = __dirname + filePath;    // 絶対パスへ変換
     res.writeHead(200, {"Content-Type": mime[path.extname(fullPath)] || "text/plain"});
     fs.readFile(fullPath, (err, data)=>{
         if (err) {
@@ -28,21 +29,78 @@ var server = http.createServer((req, res) => {
 }).listen(3000);
 console.log("サーバーが起動しました\nhttp://localhost:3000");
 
-//　サーバーと紐付け
+// プレイヤークラス
+class Player {
+    constructor(id) {
+        this.id = id;
+        this.width = 50;
+        this.height = 100;
+        this.x = 100;
+        this.y = 100;
+        this.angle = 0;
+        this.speed = 5;
+        this.jump = false;
+        this.jumpPower = 20
+        this.jumpSpeed = this.jumpPower;
+        this.gravity = 1;
+    }
+    move() {
+        // 左右へ移動
+        this.x += this.speed * this.angle;
+        // ジャンプ
+        if (this.jump && this.y>=100) {
+            this.y += this.jumpSpeed;
+            this.jumpSpeed -= this.gravity;
+            if (this.y < 100) {
+                this.y = 100;
+                this.jump = false;
+                this.jumpSpeed = this.jumpPower;
+            }
+        }
+    }
+};
+
+// プレイヤーの管理
+var players = {};
+
+// サーバーと紐付け
 var io = socketio.listen(server);
 
-//　接続時
+// 接続時
 io.sockets.on("connection", (socket)=>{
     console.log("クライアントと接続されました");
-    //　受信時
-    socket.on("c_s", (data)=>{
-        console.log("クライアントから受信しました");
-        console.log(data.value);
-        socket.emit("s_c", {value:data.value+"hoge"});  //　サーバーに送信
-        console.log("クライアントに送信しました");
+    var player;
+    // ゲームスタート
+    socket.on("gameStart", ()=>{
+        player = new Player(socket.id);
+        players[player.id] = player;
     });
-    //　切断時
+    // 移動方向
+    socket.on("run", (data)=>{
+        if (player) {
+            player.angle = data.value;
+        }
+    });
+    // ジャンプ
+    socket.on("jump", ()=>{
+        player.jump = true;
+    });
+    // 切断時
     socket.on("disconnect", ()=>{
         console.log("クライアントと切断されました");
+        if (player) {
+            delete players[player.id];
+            player = null;
+        }
     });
 });
+
+// 繰り返し処理
+setInterval(()=>{
+    if (players) {
+        Object.values(players).forEach((player)=>{
+            player.move();
+        });
+    }
+    io.sockets.emit("state", players);      // プレイヤー情報を送信
+}, 20);
