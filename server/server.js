@@ -40,22 +40,25 @@ class Player {
         this.angle = 0;
         this.speed = 5;
         this.jump = false;
+        this.jumpAngle = 0;
         this.jumpPower = 20
         this.jumpSpeed = this.jumpPower;
         this.gravity = 1;
     }
     move() {
-        // 左右へ移動
-        this.x += this.speed * this.angle;
-        // ジャンプ
         if (this.jump && this.y>=100) {
-            this.y += this.jumpSpeed;
-            this.jumpSpeed -= this.gravity;
+            // ジャンプ時
+            this.y += this.jumpSpeed;           // ジャンプ
+            this.jumpSpeed -= this.gravity;     // 重力
+            this.x += this.speed * this.jumpAngle;  // 左右へ移動
+            // 着地したら
             if (this.y < 100) {
                 this.y = 100;
                 this.jump = false;
                 this.jumpSpeed = this.jumpPower;
             }
+        } else {
+            this.x += this.speed * this.angle;  // 左右へ移動
         }
     }
 };
@@ -83,7 +86,10 @@ io.sockets.on("connection", (socket)=>{
     });
     // ジャンプ
     socket.on("jump", ()=>{
-        player.jump = true;
+        if (player && !player.jump) {
+            player.jump = true;
+            player.jumpAngle = player.angle;    // ジャンプ方向
+        }
     });
     // 切断時
     socket.on("disconnect", ()=>{
