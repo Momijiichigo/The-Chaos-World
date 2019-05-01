@@ -11,7 +11,7 @@ player_img.src = "./img/player.png";
 
 // レンダリング処理
 function rendering() {
-    if (players) {
+    if (players[socket.id] && stage) {
         // スクロール処理
         if (players[socket.id].x-stage.scroll < 100) {
             stage.scroll = players[socket.id].x - 100;
@@ -35,11 +35,13 @@ function rendering() {
             }
         });
         Object.values(players).forEach((player)=>{
-            context.drawImage(player_img, player.x-stage.scroll, canvas.clientHeight-player.height-player.y, player.width, player.height);
-            if (player.id == socket.id) {
-                // プレイヤーが自分だったら
+            if (player.id != socket.id) {                           // プレイヤーが自分以外だったら
+                context.drawImage(player_img, player.x-stage.scroll, canvas.clientHeight-player.height-player.y, player.width, player.height);
             }
         });
+        // 自分を最後に（最前面に）描画
+        var player = players[socket.id];
+        context.drawImage(player_img, player.x-stage.scroll, canvas.clientHeight-player.height-player.y, player.width, player.height);
     }
     renderLoop = requestAnimationFrame(rendering);
 }

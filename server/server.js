@@ -91,6 +91,7 @@ class Player {
                         justMove = (path[0]+path[2])*stage.block.width - this.x;
                     } else if (move>0) {
                         justMove = path[1]*stage.block.height - this.y - this.height;
+                        this.jumpSpeed = 0;
                     } else {
                         justMove = (path[1]+path[3])*stage.block.height - this.y;
                     }
