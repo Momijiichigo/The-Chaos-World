@@ -34,8 +34,8 @@ console.log("サーバーが起動しました\nhttp://localhost:3000");
 class Player {
     constructor(id) {
         this.id = id;
-        this.width = 50;
-        this.height = 100;
+        this.width = 30;
+        this.height = 60;
         this.x = 100;
         this.y = 100;
         this.angle = 0;
@@ -111,6 +111,14 @@ fs.readFile("./stage.json", (err, data)=>{
         console.log(err);
     } else {
         stage = JSON.parse(data);
+    }
+});
+fs.readFile("./stage_settings.json", (err, data)=>{
+    if (err) {
+        // エラー時
+        console.log(err);
+    } else {
+        Object.assign(stage, JSON.parse(data));
     }
 });
 

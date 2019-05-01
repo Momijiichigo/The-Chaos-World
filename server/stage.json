@@ -1,16 +1,12 @@
 {
     "background": "sky",
     "scroll": 0,
-    "block": {
-        "width": 50,
-        "height": 50
-    },
     "blocks": {
         "invisible": [
             [1, 0, 1, 20],
             [198, 0, 1, 20]
         ],
-        "ground": [
+        "sand": [
             [0, 0, 200, 2],
             [5, 3, 12, 1],
             [10, 4, 5, 1],

@@ -3,11 +3,18 @@ var context = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-var ground_img = new Image();
-ground_img.src = "./img/ground.jpg";
+// ウィンドウリサイズ時
+window.addEventListener("resize", ()=>{
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
 
-var player_img = new Image();
-player_img.src = "./img/player.png";
+// 画像読み込み
+var img = {};
+img.sand = new Image();
+img.sand.src = "./img/sand.jpg";
+img.player = new Image();
+img.player.src = "./img/player.png";
 
 // レンダリング処理
 function rendering() {
@@ -26,28 +33,27 @@ function rendering() {
                 context.fillRect(0, 0, canvas.width, canvas.height);
                 break;
         }
-        // 地面
-        stage.blocks.ground.forEach((path)=>{
-            for (var x_num=0; x_num<path[2]; x_num++) {             // x軸の個数
-                for (var y_num=1; y_num<=path[3]; y_num++) {        // y軸の個数
-                    context.drawImage(ground_img, stage.block.width*(path[0]+x_num)-stage.scroll, canvas.clientHeight-stage.block.width*(path[1]+y_num), stage.block.width, stage.block.height);
+        Object.keys(stage.blocks).forEach((type)=>{
+            stage.blocks[type].forEach((path)=>{
+                for (var x_num=0; x_num<path[2]; x_num++) {             // x軸の個数
+                    for (var y_num=1; y_num<=path[3]; y_num++) {        // y軸の個数
+                        switch(type) {
+                            case "sand":                              // 地面
+                                context.drawImage(img.sand, stage.block.width*(path[0]+x_num)-stage.scroll, canvas.height-stage.block.height*(path[1]+y_num), stage.block.width, stage.block.height);
+                                break;
+                        }
+                    }
                 }
-            }
+            });
         });
         Object.values(players).forEach((player)=>{
             if (player.id != socket.id) {                           // プレイヤーが自分以外だったら
-                context.drawImage(player_img, player.x-stage.scroll, canvas.clientHeight-player.height-player.y, player.width, player.height);
+                context.drawImage(img.player, player.x-stage.scroll, canvas.height-player.height-player.y, player.width, player.height);
             }
         });
         // 自分を最後に（最前面に）描画
         var player = players[socket.id];
-        context.drawImage(player_img, player.x-stage.scroll, canvas.clientHeight-player.height-player.y, player.width, player.height);
+        context.drawImage(img.player, player.x-stage.scroll, canvas.height-player.height-player.y, player.width, player.height);
     }
     renderLoop = requestAnimationFrame(rendering);
 }
-
-// ウィンドウリサイズ時
-window.addEventListener("resize", ()=>{
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-});
