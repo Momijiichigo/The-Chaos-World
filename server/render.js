@@ -30,7 +30,6 @@ function rendering() {
         stage.blocks.ground.forEach((path)=>{
             for (var x_num=0; x_num<path[2]; x_num++) {             // x軸の個数
                 for (var y_num=1; y_num<=path[3]; y_num++) {        // y軸の個数
-                    if (stage.block.width*(path[0]+x_num+1)-stage.scroll>=0 && stage.scroll+canvas.width-stage.block.width*(path[0]+x_num)>=0)
                     context.drawImage(ground_img, stage.block.width*(path[0]+x_num)-stage.scroll, canvas.clientHeight-stage.block.width*(path[1]+y_num), stage.block.width, stage.block.height);
                 }
             }
