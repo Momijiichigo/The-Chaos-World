@@ -11,7 +11,7 @@ player_img.src = "./img/player.png";
 
 // レンダリング処理
 function rendering() {
-    if (players[socket.id] && stage) {
+    if (socket.id in players && stage) {
         // スクロール処理
         if (players[socket.id].x-stage.scroll < 100) {
             stage.scroll = players[socket.id].x - 100;

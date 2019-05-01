@@ -2,7 +2,7 @@
 var socket = io.connect("http://localhost:3000");
 var renderLoop;
 var stage;
-var players;
+var players = {};
 
 // 接続時
 socket.on("connect", ()=>{
@@ -14,7 +14,7 @@ socket.on("connect", ()=>{
 socket.on("disconnect", ()=>{
     console.log("サーバーと切断されました");
     cancelAnimationFrame(renderLoop);
-    players = null;
+    players = {};
 });
 
 // ステージを受信
