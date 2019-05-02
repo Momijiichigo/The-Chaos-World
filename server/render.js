@@ -20,11 +20,12 @@ img.player.src = "./img/player.png";
 function rendering() {
     if (socket.id in players && stage) {
         // スクロール処理
-        if (players[socket.id].x-stage.scroll < 100) {
+        /*if (players[socket.id].x-stage.scroll < 100) {
             stage.scroll = players[socket.id].x - 100;
         } else if (stage.scroll+canvas.width-players[socket.id].x-players[socket.id].width < 100) {
             stage.scroll = players[socket.id].x + players[socket.id].width + 100 - canvas.width;
-        }
+        }*/
+        stage.scroll = players[socket.id].x+(players[socket.id].width-canvas.width)/2
         context.clearRect(0, 0, canvas.width, canvas.height);
         // 背景
         switch(stage.background) {
