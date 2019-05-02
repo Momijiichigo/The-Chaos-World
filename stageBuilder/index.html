@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Stage Builder</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div id="border"></div>
+    <div id="manager-wrapper">
+        <div id="manager-head">
+            <button id="stage-btn" class="selected">ステージ</button>
+            <button id="block-btn">ブロック</button>
+        </div>
+        <div id="stage-manager" class="manager">
+            <p id="stageFile">
+                <button>開く</button>
+                <button>保存</button>
+            </p>
+            <p>
+                背景 : <select id="stageBack"><option value="sky">sky</option></select>
+            </p>
+        </div>
+        <div id="block-manager" class="manager" style="display: none;">
+            <p>
+                Type : <select id="type"><option value="unselected">ブロックの種類を選択</option></select>
+                <span id="typeEditor">
+                    <button onclick="addType();">追加</button>
+                    <button onclick="deleteType();">削除</button>
+                </span>
+            </p>
+            <div id="block-list"></div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
