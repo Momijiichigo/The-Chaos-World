@@ -15,24 +15,24 @@
         </div>
         <div id="stage-manager" class="manager">
             <p id="stageFile">
-                <button>開く</button>
-                <button>保存</button>
+                <button onclick="openFile();">開く</button>
+                <button onclick="saveFile();">保存</button>
             </p>
             <p>
-                背景 : <select id="stageBack"><option value="sky">sky</option></select>
+                背景 : <select id="selectBack"><option value="sky">sky</option></select>
             </p>
         </div>
         <div id="block-manager" class="manager" style="display: none;">
             <p>
-                ブロック : <select id="type"><option value="unselected">種類を選択</option></select>
+                ブロック : <select id="type"></select>
                 <span id="typeEditor">
-                    <button onclick="addType();">追加</button>
+                    <select id="addType"></select>
                     <button onclick="deleteType();">削除</button>
                 </span>
             </p>
             <div id="block-list"></div>
         </div>
     </div>
-    <script src="main.js"></script>
+    <script src="window.js"></script>
 </body>
 </html>

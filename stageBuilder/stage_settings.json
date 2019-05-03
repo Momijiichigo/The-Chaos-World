@@ -1,0 +1,15 @@
+{
+    "block": {
+        "width": 50,
+        "height": 50
+    },
+    "background": [
+        "sky",
+        "test"
+    ],
+    "blocks": [
+        "invisible",
+        "sand",
+        "test"
+    ]
+}

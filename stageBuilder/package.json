@@ -1,0 +1,16 @@
+{
+  "name": "stagebuilder",
+  "version": "1.0.0",
+  "description": "tcw stage builder",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "keywords": [
+    "TCW",
+    "stage builder"
+  ],
+  "author": "kosei28, Momijiichigo",
+  "license": "ISC"
+}
