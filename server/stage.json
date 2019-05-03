@@ -1,6 +1,5 @@
 {
     "background": "sky",
-    "scroll": 0,
     "blocks": {
         "invisible": [
             [1, 0, 1, 20],

@@ -9,6 +9,8 @@ window.addEventListener("resize", ()=>{
     canvas.height = window.innerHeight;
 });
 
+var scroll;
+
 // 画像読み込み
 var img = {};
 img.sand = new Image();
@@ -20,12 +22,12 @@ img.player.src = "./img/player.png";
 function rendering() {
     if (socket.id in players && stage) {
         // スクロール処理
-        /*if (players[socket.id].x-stage.scroll < 100) {
-            stage.scroll = players[socket.id].x - 100;
-        } else if (stage.scroll+canvas.width-players[socket.id].x-players[socket.id].width < 100) {
-            stage.scroll = players[socket.id].x + players[socket.id].width + 100 - canvas.width;
+        /*if (players[socket.id].x-scroll < 100) {
+            scroll = players[socket.id].x - 100;
+        } else if (scroll+canvas.width-players[socket.id].x-players[socket.id].width < 100) {
+            scroll = players[socket.id].x + players[socket.id].width + 100 - canvas.width;
         }*/
-        stage.scroll = players[socket.id].x+(players[socket.id].width-canvas.width)/2
+        scroll = players[socket.id].x+(players[socket.id].width-canvas.width)/2
         context.clearRect(0, 0, canvas.width, canvas.height);
         // 背景
         switch(stage.background) {
@@ -40,7 +42,7 @@ function rendering() {
                     for (var y_num=1; y_num<=path[3]; y_num++) {        // y軸の個数
                         switch(type) {
                             case "sand":                              // 地面
-                                context.drawImage(img.sand, stage.block.width*(path[0]+x_num)-stage.scroll, canvas.height-stage.block.height*(path[1]+y_num), stage.block.width, stage.block.height);
+                                context.drawImage(img.sand, stage.block.width*(path[0]+x_num)-scroll, canvas.height-stage.block.height*(path[1]+y_num), stage.block.width, stage.block.height);
                                 break;
                         }
                     }
@@ -49,12 +51,12 @@ function rendering() {
         });
         Object.values(players).forEach((player)=>{
             if (player.id != socket.id) {                           // プレイヤーが自分以外だったら
-                context.drawImage(img.player, player.x-stage.scroll, canvas.height-player.height-player.y, player.width, player.height);
+                context.drawImage(img.player, player.x-scroll, canvas.height-player.height-player.y, player.width, player.height);
             }
         });
         // 自分を最後に（最前面に）描画
         var player = players[socket.id];
-        context.drawImage(img.player, player.x-stage.scroll, canvas.height-player.height-player.y, player.width, player.height);
+        context.drawImage(img.player, player.x-scroll, canvas.height-player.height-player.y, player.width, player.height);
     }
     renderLoop = requestAnimationFrame(rendering);
 }
