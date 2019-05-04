@@ -31,6 +31,9 @@ class Jiki extends Player {
         //closer player's id (will be used to send its pos info to closer players)
         this.closePlayers=[];
         this.getInfo = setInterval(()=>{
+            for(pid in this.closePlayers){
+                
+            }
             //check for closer player
             if (socket.connected) {                     // サーバに接続中なら                         // プレイヤーの向き
                 socket.emit("getPlayers",{x:this.posInfo[x],y:this.posInfo[y]});     // を送信
@@ -74,10 +77,10 @@ socket.on("players", (data)=>{
     players = data;
 });
 */
-var downKeys = [];
+
 
 function emitPos() {
     if (socket.connected) {                     // サーバに接続中なら                       
-        socket.emit("run", {sendTo:jiki.closePlayers,posInfo:jiki.posInfo});     // を送信
+        socket.emit("sendMove", {sendTo:jiki.closePlayers,posInfo:jiki.posInfo});     // を送信
     }
 }

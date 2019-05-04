@@ -47,17 +47,12 @@ io.sockets.on("connection", (socket)=>{
         players[socket.id] = data;
         console.log(data);
     });
-    // 移動方向
-    socket.on("run", (data)=>{
-        if (player) {
-            player.angle = data.value;
-        }
-    });
-    // ジャンプ
-    socket.on("jump", ()=>{
-        if (player && !player.jump) {
-            player.jump = true;
-            player.jumpAngle = player.angle;    // ジャンプ方向
+    
+    socket.on("sendMove", (data)=>{
+        //io.to(socketid).emit('message', 'whatever');
+        let to = data.sendTo;
+        for(receiverId in to){
+            io.to(receiverId).emit('updatePos', data.posInfo);
         }
     });
     socket.on("getPlayers", (data)=>{
