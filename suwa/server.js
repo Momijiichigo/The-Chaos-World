@@ -26,7 +26,7 @@ var server = http.createServer((req, res) => {
             res.end(data, "UTF-8");
         }
     });
-}).listen(3000);
+}).listen(3456);
 console.log("サーバーが起動しました\nhttp://localhost:3456");
 
 
