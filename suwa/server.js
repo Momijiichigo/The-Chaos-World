@@ -52,7 +52,7 @@ io.sockets.on("connection", (socket)=>{
         //io.to(socketid).emit('message', 'whatever');
         let to = data.sendTo;
         for(receiverId in to){
-            io.to(receiverId).emit('updatePos', data.posInfo);
+            io.to(receiverId).emit('updatePos', {from:socket.id,posInfo:data.posInfo});
         }
     });
     socket.on("getPlayers", (data)=>{

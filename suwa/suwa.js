@@ -1,7 +1,7 @@
 "use strict";
 // サーバーに接続
 var socket = io.connect("http://localhost:3456");
-
+var players = {};
 class creature {
     constructor(id){
         //pos,x-speed,y-speed,y-acceleration
@@ -22,7 +22,7 @@ class creature {
 class Player {
     constructor(id){
         super(id);
-
+        this.id=id;
     }
 }
 class Jiki extends Player {
@@ -31,9 +31,9 @@ class Jiki extends Player {
         //closer player's id (will be used to send its pos info to closer players)
         this.closePlayers=[];
         this.getInfo = setInterval(()=>{
-            for(pid in this.closePlayers){
-                
-            }
+            Object.values(players).forEach((player)=>{
+                player.move();
+            });
             //check for closer player
             if (socket.connected) {                     // サーバに接続中なら                         // プレイヤーの向き
                 socket.emit("getPlayers",{x:this.posInfo[x],y:this.posInfo[y]});     // を送信
@@ -52,8 +52,8 @@ class Jiki extends Player {
 
 var renderLoop;
 var stage;
-var players = {};
-let jiki = new jiki();
+
+
 // 接続時
 socket.on("connect", ()=>{
     console.log("サーバーに接続されました");
@@ -71,16 +71,14 @@ socket.on("disconnect", ()=>{
 socket.on("stage", (data)=>{
     stage = data;
 });
-// プレイヤー情報を受信
-/*
-socket.on("players", (data)=>{
-    players = data;
+let jiki = new jiki();
+socket.on("updatePos", (data)=>{
+    
 });
-*/
-
 
 function emitPos() {
     if (socket.connected) {                     // サーバに接続中なら                       
         socket.emit("sendMove", {sendTo:jiki.closePlayers,posInfo:jiki.posInfo});     // を送信
+        console.log("emit pos info");
     }
 }
