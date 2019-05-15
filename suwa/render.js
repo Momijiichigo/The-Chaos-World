@@ -1,11 +1,12 @@
 "use strict";
 var canvas = document.getElementById("canvas");
-var context = canvas.getContext("2d");
+var ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 //rendering
-let progress,jxvel=null,jyac=null;
+let progress,jxvel=null,jyac=null,start;
 let draw = timestamp =>{
+    if (!start) start = timestamp;
     progress = timestamp - start;
     
     ctx.clearRect(0,0, canvas.width, canvas.height);
@@ -19,11 +20,13 @@ let draw = timestamp =>{
             emitPos();
             jyac=jiki.posInfo.accy;
         }
-
+        //closePlayers
+        for(let pid in closePlayers){
+            closePlayers[pid].move();
+        }
         //ctx.drawImage(Jiki,~~~,~~~,~~~,~~~,x,y,~~,~~)
         //drawing
         jiki.move();
-    if (!start) start = timestamp;
     
     //ctx.drawImage(charImages, 0, 0);
     window.requestAnimationFrame(draw);

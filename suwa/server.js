@@ -51,13 +51,13 @@ io.sockets.on("connection", (socket)=>{
     socket.on("sendMove", (data)=>{
         //io.to(socketid).emit('message', 'whatever');
         let to = data.sendTo;
-        for(receiverId in to){
+        for(let receiverId in to){
             io.to(receiverId).emit('updatePos', {from:socket.id,posInfo:data.posInfo});
         }
     });
     socket.on("getPlayers", (data)=>{
-        for(key in players){
-            if(players[key].x<data.x+1000 && players[key].x>data.x-1000 && players[key].y<data.y+1000 && players[key].y>data.y-1000)closePlayers.push(key);
+        for(let key in players){
+            if(key!=socket.id && players[key].posInfo.x<data.x+1000 && players[key].posInfo.x>data.x-1000 && players[key].posInfo.y<data.y+1000 && players[key].posInfo.y>data.y-1000)closePlayers.push(key);
         }
         socket.emit("sendPs", closePlayers);  
     });

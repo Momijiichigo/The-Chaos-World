@@ -1,9 +1,26 @@
 "use strict";
 // サーバーに接続
 var socket = io.connect("http://localhost:3456");
-var players = {};
-class creature {
-    constructor(id){
+//list holds playerObj
+//var players = {};
+var input_key = new Array();
+document.addEventListener('keydown', (e) => {
+	input_key[e.key]=true;
+})
+document.addEventListener('keyup', (e) => {
+	input_key[e.key]=false;
+})
+window.addEventListener('blur',()=>{
+	// 配列をクリアする
+	input_key.length = 0;
+	console.log("event blur");
+});
+var keyIsDown = (key) =>{
+	if(input_key[key])return true;
+	return false;
+}
+class Creature {
+    constructor(){
         //pos,x-speed,y-speed,y-acceleration
         //this.x,this.y,this.velx,this.vely,this.accy;
         this.posInfo={
@@ -19,34 +36,53 @@ class creature {
     }
 
 }
-class Player {
-    constructor(id){
-        super(id);
-        this.id=id;
+class Player extends Creature{
+    constructor(){
+        super();
+        
     }
 }
+let closePlayers={};
 class Jiki extends Player {
     constructor(){
         super();
         //closer player's id (will be used to send its pos info to closer players)
-        this.closePlayers=[];
+        
         this.getInfo = setInterval(()=>{
+            /*
             Object.values(players).forEach((player)=>{
-                player.move();
+                let exist=false;
+                //this.closePlayers
+                //if(player.id==)
             });
+            */
             //check for closer player
             if (socket.connected) {                     // サーバに接続中なら                         // プレイヤーの向き
-                socket.emit("getPlayers",{x:this.posInfo[x],y:this.posInfo[y]});     // を送信
+                socket.emit("getPlayers",{x:this.posInfo.x,y:this.posInfo.y});     // を送信
             }
             
         },500);
         socket.on("sendPs", (data)=>{
-            console.log(data);
-            this.closePlayers=data;
+            console.log(closePlayers);
+            for(let pid of data){
+                if(!closePlayers[pid]){
+                    closePlayers[pid]=new Player();
+                }
+            }
+            //this.closePlayers=data;
         })
     }
     die(){
         clearInterval(this.getInfo);
+    }
+    move(){
+        if(keyIsDown("ArrowRight")){
+
+        }
+        if(keyIsDown("ArrowRight")){
+            
+        }
+        super.move();
     }
 }
 
@@ -64,16 +100,17 @@ socket.on("connect", ()=>{
 socket.on("disconnect", ()=>{
     console.log("サーバーと切断されました");
     cancelAnimationFrame(renderLoop);
-    players = {};
+    closePlayers = {};
+    //players = {};
 });
 
 // ステージを受信
 socket.on("stage", (data)=>{
     stage = data;
 });
-let jiki = new jiki();
+let jiki = new Jiki();
 socket.on("updatePos", (data)=>{
-    
+    closePlayers[data.from].posInfo=data.posInfo;
 });
 
 function emitPos() {
