@@ -77,10 +77,10 @@ class Jiki extends Player {
     }
     move(){
         if(keyIsDown("ArrowRight")){
-
+            this.posInfo.velx=5;
         }
         if(keyIsDown("ArrowRight")){
-            
+            this.posInfo.velx=-5;
         }
         super.move();
     }
@@ -101,6 +101,7 @@ socket.on("disconnect", ()=>{
     console.log("サーバーと切断されました");
     cancelAnimationFrame(renderLoop);
     closePlayers = {};
+    clearInterval(jiki.getInfo);
     //players = {};
 });
 
