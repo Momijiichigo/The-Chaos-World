@@ -29,10 +29,12 @@ class Creature {
             accy:0
         }
     }
-    move(){
+    move(ctx){
         this.posInfo.x+=this.posInfo.velx;
         this.posInfo.y+=this.posInfo.vely;
         this.posInfo.vely+=this.posInfo.accy;
+        //canvas stuff
+        //ctx.
     }
 
 }
