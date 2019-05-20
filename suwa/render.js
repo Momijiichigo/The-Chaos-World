@@ -3,7 +3,7 @@ var canvas = document.getElementById("canvas");
 var gl = canvas.getContext("webgl2");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-//below is just copied from https://sbfl.net/blog/2017/06/23/webgl2-2d-graphics/
+//codes below are just copied from https://sbfl.net/blog/2017/06/23/webgl2-2d-graphics/
 const vertexShaderSource = await fetch('vertex_shader.glsl').then((response) => response.text());
 const fragmentShaderSource = await fetch('fragment_shader.glsl').then((response) => response.text());
 const textureData = await fetch('player.png')
