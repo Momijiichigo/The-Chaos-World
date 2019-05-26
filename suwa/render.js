@@ -1,6 +1,6 @@
 "use strict";
 var canvas = document.getElementById("canvas");
-var gl = canvas.getContext("2d");
+var ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
@@ -10,8 +10,8 @@ let draw = timestamp =>{
     if (!start) start = timestamp;
     progress = timestamp - start;
     
-    gl.clearColor(0.0, 0.0, 0.0, 1.0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     //emitting
     //if the x-velocity or y-accelaration of jiki has changed, send the position infomation
     if(jxvel!==jiki.posInfo.velx){

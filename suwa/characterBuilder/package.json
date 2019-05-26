@@ -1,0 +1,12 @@
+{
+  "name": "characterbuilder",
+  "version": "1.0.0",
+  "description": "character motion stuff",
+  "main": "index.js",
+  "scripts": {
+    "test": "electron .",
+    "run":"electron ."
+  },
+  "author": "d",
+  "license": "ISC"
+}
