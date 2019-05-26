@@ -107,8 +107,7 @@ let draw = timestamp =>{
         saveData();
         console.log("saving")
     }
-    //console.log(input_key)
-    //ctx.drawImage(charImages, 0, 0);
+    
     window.requestAnimationFrame(draw);
 }
 window.requestAnimationFrame(draw);
